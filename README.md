@@ -38,6 +38,18 @@ Replacing .js files in-place and enabling CORS for the account:
 Replacing .js files in-place using a connection string instead of host/key:
 `asge.exe -e .js -f myContainer -r -c <connection string>`
 
+Replacing all Unique Extensions in-place.  Blobs will be replaced with compressed version and headers updated:
+
+```$Extensions = (Get-ChildItem -Path "YourPathToFiles" -Recurse -File | Group-Object Extension | Select-Object Name, Count | Sort-Object count -Descending)
+$Extensions | % {
+$Extension = $_.Name
+if ($_.Name.Length -gt 1) {
+  ./asge -c "DefaultEndpointsProtocol=https;AccountName=rercreporting;AccountKey=CKvMBslAZkzynumUdDC+X7cPlWI5ku1u4Bi6s7ZtlFR+2ObbGvxGE52Kz/8VF6qGb5h2FJ7eksdX+AStDywlfA==;EndpointSuffix=core.windows.net" -f "cdn" -e $Extension -r
+}
+}
+```
+
+
 ```
   -a, --account             Storage account host. [mystorage]
 
